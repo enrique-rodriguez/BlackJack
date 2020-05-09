@@ -63,7 +63,6 @@ export default class Betting extends BaseScene {
         chip.on('pointerup', () => {
 
             chip.disableInteractive();
-            
 
             if(this.pot.contains(chip)){
                 this.removeTopChipFromPot();

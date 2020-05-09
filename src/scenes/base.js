@@ -10,12 +10,12 @@ export default class BaseScene extends Phaser.Scene {
         super(id);
     }
 
-    makeGrid(rows, columns) {
+    makeGrid(rows, cols) {
 
         var config = {
-            'scene': this,
-            'cols': columns,
-            'rows': rows
+            scene: this,
+            cols: cols,
+            rows: rows
         }
 
         return new Grid(config);

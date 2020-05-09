@@ -8,7 +8,7 @@ export default class DealButton extends ActionButton {
 
     constructor(scene) {
         let config = {
-            frame: 'deal', 
+            frame: 'Deal', 
             indexPos: DealButton.position
         };
         
@@ -28,7 +28,7 @@ export default class DealButton extends ActionButton {
     hidePokerChips() {
         this.scene.tweens.add({
             targets: this.scene.chips.getChildren(),
-            y: 1000,
+            y: this.scene.game.config.height * 1.5,
             duration: 1000
         });
     }

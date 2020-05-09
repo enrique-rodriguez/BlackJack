@@ -8,7 +8,7 @@ export default class MenuButton extends Button {
     constructor(scene) {
         
         let config = {
-            frame: "menu",
+            frame: "Home",
             indexPos: 208
         }
 

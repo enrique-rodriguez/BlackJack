@@ -4,10 +4,13 @@ import CONSTANTS from "../../constants";
 
 export default class Chip extends Sprite {
 
+    static SCALE = 0.75;
+
     constructor(scene, config) {
         config.texture = "chips";
         config.frame = "$" + config.value;
         config.interactive = true;
+        config.scale = Chip.SCALE;
 
         super(scene, config);
 

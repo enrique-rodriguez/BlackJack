@@ -47,7 +47,7 @@ export default class Tween {
             targets: target,
             ease: "Linear",
             duration: 500,
-            x: CONSTANTS.Dimensions.WIDTH + target.displayHeight,
+            x: scene.game.config.width + target.displayHeight,
             onComplete: onComplete,
             onCompleteScope: target
         });
@@ -84,7 +84,7 @@ export default class Tween {
             targets: target,
             ease: "Linear",
             duration: 500,
-            y: CONSTANTS.Dimensions.HEIGHT + target.displayHeight,
+            y: scene.game.config.height + target.displayHeight,
             onComplete: onComplete,
             onCompleteScope: target
         })

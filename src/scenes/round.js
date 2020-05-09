@@ -10,8 +10,6 @@ export default class StartRound extends BaseScene {
 
 	init(data) {
 		this.blackjack = data;
-
-		console.log(data)
 	}
 
 	create() {

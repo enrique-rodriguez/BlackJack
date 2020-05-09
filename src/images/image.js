@@ -10,4 +10,5 @@ export default class Image extends Phaser.GameObjects.Image {
 		scene.grid.placeAtIndex(config.indexPos, this);
         this.setTexture(config.texture);
 	}
+	
 }

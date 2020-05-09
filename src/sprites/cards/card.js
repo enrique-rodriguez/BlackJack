@@ -4,6 +4,8 @@ import FlipAnimation from "../../animation/flip";
 
 export default class Card extends Sprite {
 
+    static SCALE = 0.75;
+
     static backTexture = {
         red: 'back-red',
         blue: 'back-blue',
@@ -14,7 +16,8 @@ export default class Card extends Sprite {
 
         let _config = {
             texture: "cards",
-            backTexture: Card.backTexture.black
+            backTexture: Card.backTexture.black,
+            scale: Card.SCALE
         }
         
         _config = Object.assign(config, _config);
@@ -24,7 +27,7 @@ export default class Card extends Sprite {
         if(config.flipped) 
             this.changeTexture();
 
-        this.flipAnimation = new FlipAnimation(scene, this, 1);
+        this.flipAnimation = new FlipAnimation(scene, this, Card.SCALE);
     }
 
     getRandomSound() {

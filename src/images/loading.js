@@ -2,6 +2,7 @@ import 'phaser';
 
 
 export default class LoadingImage extends Phaser.GameObjects.Image {
+
     constructor(grid) {
         super(grid.scene);
         this.setScale(0.5);
@@ -9,4 +10,5 @@ export default class LoadingImage extends Phaser.GameObjects.Image {
         grid.scene.add.existing(this);
         grid.placeAtIndex(112, this);
     }
+    
 }

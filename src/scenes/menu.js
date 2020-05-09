@@ -2,12 +2,16 @@ import CONSTANTS from "../constants";
 import BaseScene from "./base";
 import PlayButton from "../sprites/buttons/play";
 import SoundButton from "../sprites/buttons/sound";
+import FullScreenButton from "../sprites/buttons/fullscreen";
 import MenuCard from "../sprites/cards/menu";
 import Carpet from "../images/carpet";
 import MenuTitle from "../images/menu_title";
 import Tween from "../animation/tween";
+import "phaser";
+
 
 export default class Menu extends BaseScene {
+    
     constructor() {
         super(CONSTANTS.Scenes.Keys.Menu);
     }
@@ -20,10 +24,12 @@ export default class Menu extends BaseScene {
         super.create( () => {
             this.carpet = new Carpet(this);
             this.menuTitle = new MenuTitle(this);
+
             this.playButton = new PlayButton(this);
             this.soundButton = new SoundButton(this, 209);
-            this.menuCard = new MenuCard(this);
+            this.fullScreenButton = new FullScreenButton(this);
 
+            this.menuCard = new MenuCard(this);
             this.addTweens();
         });
     }

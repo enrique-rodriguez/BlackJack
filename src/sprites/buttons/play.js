@@ -5,7 +5,7 @@ import Tween from "../../animation/tween";
 export default class PlayButton extends Button {
 
     constructor(scene) {
-        let config = {frame: 'play', indexPos: 195};
+        let config = {frame: 'Play', indexPos: 195};
 
         super(scene, config);
     }
@@ -20,6 +20,7 @@ export default class PlayButton extends Button {
             setTimeout( () =>{
                 Tween.exitRight(this.scene, this.scene.menuCard);
                 Tween.exitDown(this.scene, this.scene.soundButton);
+                Tween.exitDown(this.scene, this.scene.fullScreenButton);
                 Tween.dim(this.scene, this.scene.carpet);
                 Tween.exitDown(this.scene, this);
                 

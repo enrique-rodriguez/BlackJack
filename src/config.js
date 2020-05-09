@@ -1,33 +1,32 @@
 import 'phaser';
 
 import CONSTANTS from "./constants";
+import { DPR } from "./utils/dpr";
 
-let clientWidth = document.documentElement.clientWidth
-let clientHeight = document.documentElement.clientHeight
+const width = 800;
+const height = 600;
 
-const PIXEL_RATIO = (function() {
-    var ctx = document.createElement("canvas").getContext("2d"),
-        dpr = window.devicePixelRatio || 1,
-
-        // The backing store size in relation to the canvas element
-        bsr = ctx.webkitBackingStorePixelRatio ||
-        ctx.mozBackingStorePixelRatio ||
-        ctx.msBackingStorePixelRatio ||
-        ctx.oBackingStorePixelRatio ||
-        ctx.backingStorePixelRatio || 1
-
-    return dpr / bsr
-})();
 
 export default {
     type: Phaser.AUTO,
+
     parent: "blackjack", 
+
     scale: {
     	mode: Phaser.Scale.FIT,
-    	autoCenter: Phaser.Scale.CENTER_BOTH
+    	autoCenter: Phaser.Scale.CENTER_BOTH,
+        zoom: 1 / DPR,
+        width: width * DPR,
+        height: height * DPR,
     },
+
+    antialias: true,
+
+    pixelArt: false,
+
     scene: CONSTANTS.Scenes.Classes,
+    
     audio: {
         disableWebAudio: true
-    }
+    },
 }

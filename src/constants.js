@@ -15,7 +15,7 @@ const AUDIO_PATH  = ASSETS_PATH + "audio/";
 
 export default {
 
-	DEBUG: false,
+	DEBUG: true,
 
 	Dimensions: {
 		HEIGHT: 600,

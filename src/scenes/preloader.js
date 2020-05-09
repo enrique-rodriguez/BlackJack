@@ -4,53 +4,54 @@ import LoadingImage from "../images/loading";
 import ProgressBar from "../utils/progress";
 import Tween from "../animation/tween";
 
+import { DPR } from "../utils/dpr";
 
-const sounds = ['button-click', 'music'];
-const images = ['red carpet', 'menu_title', 'table'];
-const atlas  = ['cards', 'chips', 'buttons'];
+
+const sounds = ['button-click', 'music', 'ambience'];
+const images = ['table', 'blackjack', 'red carpet'];
+const atlas  = ['chips', 'cards', 'buttons'];
 
 
 export default class Preloader extends BaseScene {
+    
     constructor() {
         super(CONSTANTS.Scenes.Keys.Preloader);
     }
 
     preload() {
         
-        let grid = this.makeGrid(15, 15);
-
-        this.loadingImage = new LoadingImage(grid);
+        this.grid = this.makeGrid(15, 15);
+        this.progressBar = new ProgressBar(this);
+        this.loadingImage = new LoadingImage(this.grid);
 
         this.displayProgress();
-
         this.preloadImages();
-
         this.preloadSounds();
     }
 
     preloadImages() {
         
-        for(const ats of Object.values(atlas)){
-            let imagePath = CONSTANTS.Paths.IMAGES + ats + '.png';
-            let jsonPath  = CONSTANTS.Paths.JSONS  + ats + '.json';
+        atlas.forEach(ats => {
+            let imagePath = CONSTANTS.Paths.IMAGES + ats + '@' + DPR + 'x.png';
+            let jsonPath  = CONSTANTS.Paths.JSONS  + ats + '@' + DPR + 'x.json';
 
             this.load.atlas(ats, imagePath, jsonPath);
-        }
+        })
         
-        for(const image of Object.values(images)) {
-            let path = CONSTANTS.Paths.IMAGES + image + '.png';
-
+        images.forEach( image => {
+            let path = CONSTANTS.Paths.IMAGES + image + '@' + DPR + 'x.png';
             this.load.image(image, path);
-        }
+        })
+
     }
 
     preloadSounds() {
 
-        for(const audio of Object.values(sounds)) {
-            let path = CONSTANTS.Paths.AUDIO + audio + ".mp3";
+        sounds.forEach( sound => {
+            let path = CONSTANTS.Paths.AUDIO + sound + ".mp3";
 
-            this.load.audio(audio, path);
-        }
+            this.load.audio(sound, path);
+        })
 
         for(var i = 1; i <= CONSTANTS.Sounds.CARD_FLIP; i++) {
             let sound = 'card_flip' + i;
@@ -68,26 +69,41 @@ export default class Preloader extends BaseScene {
     }
 
     displayProgress() {
-        let progressBar = new ProgressBar(this);
 
         this.load.on('progress', function(value) {
-            progressBar.update(value);
-        })
+            this.progressBar.update(value);
+        }, this);
 
         this.load.on('complete', function() {
-            progressBar.destroy();
-        })
+            this.progressBar.setText("Click to start");
+        }, this);
     }
 
     create() {
         super.create( () => {
-            let music = this.sound.add('music', {mute: true, loop: true, volume: 0.2});
+            // Make the user interact with the browser to allow autoplay.
+            
+            if(CONSTANTS.DEBUG) {
+                this.transitionToMenuScene();
+            } else {
+                this.input.on('pointerdown', function(){  
+                    this.transitionToMenuScene();
+                }, this);
+            }
 
-            Tween.fade(this, this.loadingImage, ()=>{
-                music.play();
-                this.scene.start(CONSTANTS.Scenes.Keys.Menu, {music: music});
-            });
+        });
+    }
 
+    transitionToMenuScene() {
+        this.progressBar.destroy();
+
+        let music = this.sound.add('music', {mute: false, loop: true, volume: 0.2});
+        let ambience = this.sound.add('ambience', {mute: false, loop: true, volume: 0.1});
+
+        Tween.fade(this, this.loadingImage, ()=>{
+            music.play();
+            ambience.play();
+            this.scene.start(CONSTANTS.Scenes.Keys.Menu, {music: music, ambience: ambience });
         });
     }
 }

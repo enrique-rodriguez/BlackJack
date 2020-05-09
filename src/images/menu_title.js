@@ -7,7 +7,7 @@ export default class MenuTitle extends Phaser.GameObjects.Image {
         let position = scene.grid.getIndexPos(37);
         super(scene, position.x, position.y);
         scene.add.existing(this);
-        this.setTexture('menu_title');
-        this.setScale(0.3);
+        this.setTexture('blackjack');
     }
+    
 }

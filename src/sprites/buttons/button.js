@@ -6,7 +6,7 @@ export default class Button extends Sprite {
     static PRESS_TINT = 0x888888;
 
     constructor(scene, config) {
-        config.scale = 0.45;
+        config.scale = 0.9;
         config.texture = "buttons";
         config.interactive = true;
 
