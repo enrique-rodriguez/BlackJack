@@ -1,59 +1,73 @@
 import CONSTANTS from "../../constants";
-import Sprite from "../sprite";
 import FlipAnimation from "../../animation/flip";
 
-export default class Card extends Sprite {
+export default class Card extends Phaser.GameObjects.Sprite {
 
     static SCALE = 0.75;
+    static backTexture = 'back-black';
 
-    static backTexture = {
-        red: 'back-red',
-        blue: 'back-blue',
-        black: 'back-black'
-    };
-
-    constructor(scene, config) {
-
-        let _config = {
-            texture: "cards",
-            backTexture: Card.backTexture.black,
-            scale: Card.SCALE
-        }
-        
-        _config = Object.assign(config, _config);
-
-        super(scene, config);
-
-        if(config.flipped) 
-            this.changeTexture();
-
+    constructor(scene, model, flipped=true) {
+        super(scene);
+        scene.add.existing(this);
+        this.model = model;
         this.flipAnimation = new FlipAnimation(scene, this, Card.SCALE);
+        this.setTexture("cards");
+        this.setScale(Card.SCALE);
+        this.setFrame(model.toString());
+
+        if(flipped) this.changeTexture();
+
+        this.on('pointerup', this.flip, this);
+
     }
 
-    getRandomSound() {
+    getRandomFlipSound() {
         let sound = "card_flip" + (Math.floor(Math.random() * CONSTANTS.Sounds.CARD_FLIP) + 1);
         return this.scene.sound.add(sound);
     }
 
-    flip() {
-        this.getRandomSound().play();
-
-        this.flipAnimation.animate({
-            onComplete: ()=>{
-                this.changeTexture();
-            }
-        });
+    getRandomDealSound() {
+        let sound = "card_deal" + (Math.floor(Math.random() * CONSTANTS.Sounds.CARD_DEAL) + 1);
+        return this.scene.sound.add(sound);
     }
 
+    flip(animate=true) {
+        this.getRandomFlipSound().play();
+
+        if(animate) {
+            this.flipAnimation.animate({
+                onComplete: ()=>{
+                    this.changeTexture();
+                }
+            });
+        }
+    }
+
+    placeAt(index) {
+        let position = this.scene.grid.getIndexPos(index);
+
+        this.scene.tweens.add({
+            duration: 500,
+            targets: this,
+            x: position.x,
+            y: position.y,
+            ease: "Linear",
+            onCompleteScope: this,
+            onComplete: () => {
+                this.getRandomDealSound().play();
+                this.flip();
+            },
+        })
+    }
 
 
     changeTexture() {
         let texture;
 
-        if(this.frame.name == this.config.backTexture) 
-            texture = this.config.frame;
+        if(this.frame.name == Card.backTexture) 
+            texture = this.model.toString();
         else
-            texture = this.config.backTexture;
+            texture = Card.backTexture;
 
         this.setFrame(texture);
     }

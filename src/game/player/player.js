@@ -1,19 +1,20 @@
 import AbstractPlayer from "./abstract_player";
-import Balance from "../../text/balance";
 
 export default class Player extends AbstractPlayer {
 
-    constructor(scene, money) {
+    constructor(money) {
         super();
-        this.balance = new Balance(scene, money);
+        this.money = money;
     }
 
     take(chip) {
-        this.balance.withdraw(chip.getValue());
+        this.money -= chip.getValue();
+
+        if(this.money < 0) this.money = 0;
     }
 
     give(chip) {
-        this.balance.deposit(chip.getValue());
+        this.money += chip.getValue();
     }
 
 }

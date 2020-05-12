@@ -13,19 +13,18 @@ export default class Deck {
     }
 
     reset() {
-        this.removeAllElements();
+        this.removeAllCards();
 
         for(const suit of Object.values(CardModel.SUITS)) {
             for(const value of Object.values(CardModel.VALUES)){
-                let card = new CardModel(suit, value);
-                this.cards.push(card);
+                let model = new CardModel(suit, value);
+                this.cards.push(model);
             }
         }
     }
 
-    removeAllElements() {
+    removeAllCards() {
         while(this.cards.length > 0) this.cards.pop();
-        
     }
 
     add(card) {

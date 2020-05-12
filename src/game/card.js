@@ -18,6 +18,10 @@ export default class CardModel {
         this.value = value;
     }
 
+    getAssetName() {
+        return `${this.suit}${this.value}`;
+    }
+
     toString() {
         return `${this.suit}${this.value}`;
     }

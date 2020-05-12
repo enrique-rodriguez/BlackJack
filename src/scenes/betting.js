@@ -2,8 +2,8 @@ import CONSTANTS from "../constants";
 import BaseScene from "./base";
 import Chip from "../sprites/chips/chip";
 import Tween from "../animation/tween";
-import PlaceBetText from "../text/place_bet";
-import DealButton from "../sprites/buttons/deal";
+import Text from "../text/text";
+import Button from "../sprites/buttons/button";
 import Pot from "../groups/pot";
 import Chips from "../groups/chips";
 
@@ -11,11 +11,9 @@ import Chips from "../groups/chips";
 export default class Betting extends BaseScene {
 
     static chipIndices = [169, 171, 173, 175, 199, 201, 203 , 205 ];
-    static chipValues  = [1  , 5  ,  10,  50, 100, 500, 1000, 2000];
 
     static getChipIndex(chip) {
-        let index = Betting.chipValues.indexOf(chip.getValue());
-
+        let index = Chip.VALUES.indexOf(chip.getValue());
         return Betting.chipIndices[index];
     }
     
@@ -23,18 +21,25 @@ export default class Betting extends BaseScene {
         super(CONSTANTS.Scenes.Keys.Betting);
     }
 
-    init(data) {
-        this.blackjack = data;
+    init(blackjack) {
+        this.blackjack = blackjack;
     }
 
     create() {
         super.create( ()=> {
 
-            this.placeBetText = new PlaceBetText(this);
-            this.dealButton   = new DealButton(this);
+            this.placeBetText = new Text(this, "Place your bet!");
+
+            this.dealButton   = new Button(this, "Deal", () => this.transitionToDealScene());
+            this.dealButton.setAlpha(0).setScale(0.7);
 
             this.chips = new Chips(this);
-            this.pot   = new Pot(this);
+            this.pot = new Pot(this);
+
+            this.grid.placeAtIndex(124, this.dealButton);
+            this.grid.placeAtIndex(67, this.placeBetText);
+            this.grid.placeAtIndex(129, this.pot.text);
+
 
             this.placeChips();
         });
@@ -45,9 +50,9 @@ export default class Betting extends BaseScene {
         let currentValue = 0;
 
         for(const index of Object.values(Betting.chipIndices)) {
-            let value = Betting.chipValues[currentValue];
+            let value = Chip.VALUES[currentValue];
 
-            if(this.blackjack.player.balance.amount < value) 
+            if(this.blackjack.player.money < value) 
                 break;
 
             this.createChip(index, value);
@@ -57,18 +62,19 @@ export default class Betting extends BaseScene {
 
     createChip(index, value) {
 
-        let chip = new Chip(this, {indexPos: index, value: value});
+        let chip = new Chip(this, value);
+
+        this.grid.placeAtIndex(index, chip);
         this.chips.add(chip);
 
         chip.on('pointerup', () => {
 
             chip.disableInteractive();
 
-            if(this.pot.contains(chip)){
+            if(this.pot.contains(chip))
                 this.removeTopChipFromPot();
-            }else {
+            else
                 this.placeInPot(chip, index, value);
-            }
 
             this.children.bringToTop(chip);
 
@@ -81,6 +87,7 @@ export default class Betting extends BaseScene {
     removeTopChipFromPot() {
         let chip = this.pot.remove();
         this.blackjack.player.give(chip);
+        this.updatePlayersBalance();
 
         let index = Betting.getChipIndex(chip);
 
@@ -94,6 +101,7 @@ export default class Betting extends BaseScene {
 
     placeInPot(chip, index, value) {
         this.blackjack.player.take(chip);
+        this.updatePlayersBalance();
         this.chips.remove(chip);
 
         let position = this.pot.add(chip);
@@ -112,8 +120,12 @@ export default class Betting extends BaseScene {
         }
     }
 
+    updatePlayersBalance() {
+        this.blackjack.balance.setText(`$${this.blackjack.player.money}`);
+    }
+
     enableButtonsCheck() {
-        if(this.pot.getAmount() > 0)
+        if(this.pot.amount > 0)
             this.dealButton.show(true);
         else
             this.dealButton.show(false);
@@ -122,10 +134,61 @@ export default class Betting extends BaseScene {
     updateChips() {
         for(const chip of Object.values(this.chips.getChildren())) {
 
-            if(this.blackjack.player.balance.amount < chip.getValue()) 
+            if(this.blackjack.player.money < chip.getValue()) 
                 chip.setVisible(false);
             else 
                 chip.setVisible(true);
         }
+    }
+
+    transitionToDealScene() {
+        this.hidePokerChips();
+        this.hidePotTextAndDealButton();
+        this.movePot();
+    }
+
+    hidePokerChips() {
+        this.tweens.add({
+            targets: this.chips.getChildren(),
+            y: this.game.config.height * 1.5,
+            duration: 1000
+        });
+    }
+
+    hidePotTextAndDealButton() {
+        this.tweens.add({
+            targets: [this.dealButton, this.placeBetText],
+            alpha: 0,
+            duration: 500,
+            onComplete: () => {
+                this.dealButton.destroy();
+                this.placeBetText.destroy();
+            }
+        });
+    }
+
+    movePot() {
+
+        this.pot.disableInteractive();
+
+        let potPosition  = this.grid.getIndexPos(118);
+        let textPosition = this.grid.getIndexPos(148);
+
+        this.tweens.add({
+            targets: this.pot.getChildren(),
+            duration: 500,
+            x: potPosition.x,
+            y: potPosition.y,
+            onCompleteScope: this,
+            onComplete: (tween, targets) => {
+                this.scene.launch(CONSTANTS.Scenes.Keys.Round, this.blackjack);
+            }});
+
+        this.tweens.add({
+            targets: this.pot.text,
+            duration: 500,
+            x: textPosition.x,
+            y: textPosition.y
+        });
     }
 }

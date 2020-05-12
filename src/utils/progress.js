@@ -1,5 +1,4 @@
-import LoadingText from "../text/loading";
-import PercentageText from "../text/percentage";
+import Text from "../text/text";
 
 
 export default class ProgressBar {
@@ -12,8 +11,11 @@ export default class ProgressBar {
 
 
     create() {
-        this.loadingText = new LoadingText(this.scene);
-        this.percentText = new PercentageText(this.scene);
+        this.loadingText = new Text(this.scene, "Loading...").setFontSize(15);
+        this.percentText = new Text(this.scene, "0%").setFontSize(25);
+
+        this.scene.grid.placeAtIndex(157, this.percentText);
+        this.scene.grid.placeAtIndex(172, this.loadingText);
     }
 
     update(value) {

@@ -17,6 +17,10 @@ export default {
 
 	DEBUG: true,
 
+	Player: {
+		Money: 5000
+	},
+
 	Dimensions: {
 		HEIGHT: 600,
 		WIDTH: 800
@@ -50,7 +54,8 @@ export default {
 
 	Sounds: {
 		CARD_FLIP: 5,
-		POKER_CHIP: 4
+		CARD_DEAL: 5,
+		POKER_CHIP: 4,
 	}
 }
 

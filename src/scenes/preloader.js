@@ -1,6 +1,5 @@
 import CONSTANTS from "../constants";
 import BaseScene from "./base";
-import LoadingImage from "../images/loading";
 import ProgressBar from "../utils/progress";
 import Tween from "../animation/tween";
 
@@ -18,11 +17,22 @@ export default class Preloader extends BaseScene {
         super(CONSTANTS.Scenes.Keys.Preloader);
     }
 
+    multiSoundPreload(sound, count) {
+        for(var i = 1; i <= count; i++) {
+            let fileName = sound + i;
+            let path = CONSTANTS.Paths.AUDIO + fileName + ".mp3";
+
+            this.load.audio(fileName, path);            
+        }
+    }
+
     preload() {
         
         this.grid = this.makeGrid(15, 15);
         this.progressBar = new ProgressBar(this);
-        this.loadingImage = new LoadingImage(this.grid);
+        this.loadingImage = this.add.image(0, 0, "boot").setScale(0.5);
+
+        this.grid.placeAtIndex(112, this.loadingImage);
 
         this.displayProgress();
         this.preloadImages();
@@ -53,19 +63,9 @@ export default class Preloader extends BaseScene {
             this.load.audio(sound, path);
         })
 
-        for(var i = 1; i <= CONSTANTS.Sounds.CARD_FLIP; i++) {
-            let sound = 'card_flip' + i;
-            let path = CONSTANTS.Paths.AUDIO + sound + ".mp3";
-
-            this.load.audio(sound, path);            
-        }
-
-        for(var i = 1; i <= CONSTANTS.Sounds.POKER_CHIP; i++) {
-            let sound = 'bet' + i;
-            let path = CONSTANTS.Paths.AUDIO + sound + ".mp3";
-
-            this.load.audio(sound, path);            
-        }
+        this.multiSoundPreload("card_deal", CONSTANTS.Sounds.CARD_DEAL);
+        this.multiSoundPreload("card_flip", CONSTANTS.Sounds.CARD_FLIP)
+        this.multiSoundPreload("bet", CONSTANTS.Sounds.POKER_CHIP);
     }
 
     displayProgress() {
@@ -75,7 +75,7 @@ export default class Preloader extends BaseScene {
         }, this);
 
         this.load.on('complete', function() {
-            this.progressBar.setText("Click to start");
+            this.progressBar.setText("Click to Start Game");
         }, this);
     }
 
@@ -97,13 +97,9 @@ export default class Preloader extends BaseScene {
     transitionToMenuScene() {
         this.progressBar.destroy();
 
-        let music = this.sound.add('music', {mute: false, loop: true, volume: 0.2});
-        let ambience = this.sound.add('ambience', {mute: false, loop: true, volume: 0.1});
-
-        Tween.fade(this, this.loadingImage, ()=>{
-            music.play();
-            ambience.play();
-            this.scene.start(CONSTANTS.Scenes.Keys.Menu, {music: music, ambience: ambience });
-        });
+        this.getMusicInstance().play();
+        let ambience = this.sound.add('ambience', {mute: true, loop: true, volume: 0.1});
+        ambience.play();
+        Tween.fade(this, this.loadingImage, () => this.scene.start(CONSTANTS.Scenes.Keys.Menu));
     }
 }

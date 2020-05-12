@@ -7,10 +7,9 @@ export default class Text extends Phaser.GameObjects.Text {
 
 	static FONT_SIZE = 35;
 
-	constructor(scene, config) {
-		super(scene);
+	constructor(scene, text) {
+		super(scene, 0, 0, text);
 		scene.add.existing(this);
-		scene.grid.placeAtIndex(config.indexPos, this);
 		
 		this.setOrigin(0.5);
         this.setStroke(0x000000, 10);
@@ -18,7 +17,7 @@ export default class Text extends Phaser.GameObjects.Text {
 	}
 
 	setFontSize(fontSize) {
-		super.setFontSize(fontSize * DPR);
+		return super.setFontSize(fontSize * DPR);
 	}
 
 }

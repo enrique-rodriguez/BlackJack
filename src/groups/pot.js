@@ -1,6 +1,6 @@
 import "phaser";
 
-import PotText from "../text/pot";
+import Text from "../text/text";
 
 
 export default class Pot extends Phaser.GameObjects.Group {
@@ -10,17 +10,10 @@ export default class Pot extends Phaser.GameObjects.Group {
     constructor(scene) {
         super(scene);
 
-        this.model = new PotText(this.scene);
+        this.amount = 0;
+        this.text = new Text(this.scene, `$${this.amount}`).setVisible(false);
         this.chips = [];
         this.position = scene.grid.getIndexPos(Pot.index);
-    }
-
-    getAmount() {
-        return this.model.getAmount();
-    }
-
-    getText() {
-        return this.model;
     }
 
     disableInteractive() {
@@ -32,18 +25,33 @@ export default class Pot extends Phaser.GameObjects.Group {
     add(chip) {
         super.add(chip);
 
-        let newAmount = this.model.amount + chip.model.value;
-        this.model.setAmount(newAmount);
+        let newAmount = this.amount + chip.model.value;
+        this.update(newAmount)
+
         this.chips.push(chip);
         this.position.y -= 2;
         return this.position;
     }
 
+    update(amount) {
+        this.amount = amount;
+
+        if(this.amount <= 0) {
+            this.amount = 0;
+            this.text.setVisible(false);
+        } else {
+            this.text.setVisible(true);
+        }
+        this.text.setText(`$${this.amount}`);
+    }
+
     remove() {
         
         let chip = this.chips.pop();
-        let newAmount = this.model.amount - chip.getValue();
-        this.model.setAmount(newAmount);
+        let newAmount = this.amount - chip.getValue();
+
+        this.update(newAmount);
+
         this.position.y += 2;
 
         super.remove(chip);
@@ -51,12 +59,5 @@ export default class Pot extends Phaser.GameObjects.Group {
         return chip;
     }
 
-    getTotal() {
-        let total = 0;
 
-        for(const chip of Object.values(this.chips))
-            total += chip.value;
-
-        return total;
-    }
 }

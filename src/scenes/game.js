@@ -1,10 +1,9 @@
 import CONSTANTS from "../constants";
 import BaseScene from "./base";
-import Table from "../images/table";
-import MenuButton from "../sprites/buttons/menu";
-import SoundButton from "../sprites/buttons/sound";
+import Button from "../sprites/buttons/button";
 import Dealer from "../game/player/dealer";
 import Player from "../game/player/player";
+import Text from "../text/text";
 
 
 export default class GameScene extends BaseScene {
@@ -12,26 +11,43 @@ export default class GameScene extends BaseScene {
         super(CONSTANTS.Scenes.Keys.Game);
     }
 
-    init(data) {
-        this.music = data.music;
-    }
-
     create() {
         super.create( ()=> {
-            this.table = new Table(this);
-            this.player = new Player(this, 5000);
+            this.table = this.add.image(0, 0, 'table').setScale(1.2);
+            this.player = new Player(CONSTANTS.Player.Money);
             this.dealer = new Dealer();
+            this.balance = new Text(this, `$${this.player.money}`);
 
-            this.soundButton = new SoundButton(this, 209);
-            this.menuButton = new MenuButton(this);
+            this.grid.placeAtIndex(112, this.table);
+            this.grid.placeAtIndex(181, this.balance);
+
+            this.createButtons();
 
             this.scene.launch(CONSTANTS.Scenes.Keys.Betting, {
                 player: this.player,
+                balance: this.balance,
                 dealer: this.dealer
             });
         });
 
+    }
 
+    createButtons() {
+        this.musicButton = new Button(this, this.getMuiscButtonTexture(), () => this.toggleMusic());
+        this.menuButton = new Button(this, "Home", () => this.goToMenuScene());
 
+        this.grid.placeAtIndex(208, this.menuButton);
+        this.grid.placeAtIndex(209, this.musicButton);
+    }
+
+    toggleMusic() {
+        super.toggleMusic();
+        this.musicButton.setFrame(this.getMuiscButtonTexture());
+    }
+
+    goToMenuScene() {
+        this.scene.stop(CONSTANTS.Scenes.Keys.Game);
+        this.scene.stop(CONSTANTS.Scenes.Keys.Betting);
+        this.scene.start(CONSTANTS.Scenes.Keys.Menu);
     }
 }

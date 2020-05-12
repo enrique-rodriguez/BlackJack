@@ -1,7 +1,7 @@
 import Hand from "../hand";
 
 
-export default class Player {
+export default class AbstractPlayer {
 
     constructor() {
         this.hand = new Hand();
