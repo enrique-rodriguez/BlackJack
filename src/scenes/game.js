@@ -33,7 +33,7 @@ export default class GameScene extends BaseScene {
     }
 
     createButtons() {
-        this.musicButton = new Button(this, this.getMuiscButtonTexture(), () => this.toggleMusic());
+        this.musicButton = new Button(this, this.getMusicButtonTexture(), () => this.toggleMusic());
         this.menuButton = new Button(this, "Home", () => this.goToMenuScene());
 
         this.grid.placeAtIndex(208, this.menuButton);

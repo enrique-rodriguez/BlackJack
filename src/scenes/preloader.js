@@ -11,12 +11,30 @@ const images = ['table', 'blackjack', 'red carpet'];
 const atlas  = ['chips', 'cards', 'buttons'];
 
 
+/**
+ * Scene responsible for loading all of the necessary assets in the game.
+ *
+ * @export
+ * @class Preloader
+ * @extends {BaseScene}
+ */
 export default class Preloader extends BaseScene {
     
+    /**
+     *Creates an instance of Preloader.
+     * @memberof Preloader
+     */
     constructor() {
         super(CONSTANTS.Scenes.Keys.Preloader);
     }
 
+    /**
+     * For loading sounds that have multiple audio files.
+     *
+     * @param {String} sound
+     * @param {number} count
+     * @memberof Preloader
+     */
     multiSoundPreload(sound, count) {
         for(var i = 1; i <= count; i++) {
             let fileName = sound + i;
@@ -26,6 +44,11 @@ export default class Preloader extends BaseScene {
         }
     }
 
+    /**
+     * Preload entry point.
+     *
+     * @memberof Preloader
+     */
     preload() {
         
         this.grid = this.makeGrid(15, 15);
@@ -39,6 +62,11 @@ export default class Preloader extends BaseScene {
         this.preloadSounds();
     }
 
+    /**
+     * Loads all of the images in the game.
+     *
+     * @memberof Preloader
+     */
     preloadImages() {
         
         atlas.forEach(ats => {
@@ -46,7 +74,7 @@ export default class Preloader extends BaseScene {
             let jsonPath  = CONSTANTS.Paths.JSONS  + ats + '@' + DPR + 'x.json';
 
             this.load.atlas(ats, imagePath, jsonPath);
-        })
+        });
         
         images.forEach( image => {
             let path = CONSTANTS.Paths.IMAGES + image + '@' + DPR + 'x.png';
@@ -55,6 +83,11 @@ export default class Preloader extends BaseScene {
 
     }
 
+    /**
+     * Loads all of the sounds in the game.
+     *
+     * @memberof Preloader
+     */
     preloadSounds() {
 
         sounds.forEach( sound => {
@@ -68,6 +101,11 @@ export default class Preloader extends BaseScene {
         this.multiSoundPreload("bet", CONSTANTS.Sounds.POKER_CHIP);
     }
 
+    /**
+     * Displays the loading progress of the assets.
+     *
+     * @memberof Preloader
+     */
     displayProgress() {
 
         this.load.on('progress', function(value) {
@@ -79,6 +117,11 @@ export default class Preloader extends BaseScene {
         }, this);
     }
 
+    /**
+     * Setup for the scene.
+     *
+     * @memberof Preloader
+     */
     create() {
         super.create( () => {
             // Make the user interact with the browser to allow autoplay.
@@ -94,12 +137,17 @@ export default class Preloader extends BaseScene {
         });
     }
 
+    /**
+     * Transitions to the menu scene once all of the assets have been loaded into memory.
+     *
+     * @memberof Preloader
+     */
     transitionToMenuScene() {
         this.progressBar.destroy();
 
         this.getMusicInstance().play();
-        let ambience = this.sound.add('ambience', {mute: true, loop: true, volume: 0.1});
-        ambience.play();
-        Tween.fade(this, this.loadingImage, () => this.scene.start(CONSTANTS.Scenes.Keys.Menu));
+        this.getAmbienceInstance().play();
+
+        Tween.fade(this, this.loadingImage, () => this.scene.start(CONSTANTS.Scenes.Keys.Menu) );
     }
 }
