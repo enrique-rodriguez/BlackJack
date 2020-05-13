@@ -7,7 +7,7 @@ import Betting from "./scenes/betting";
 import StartRound from "./scenes/round";
 
 
-const ASSETS_PATH = "../assets/";
+const ASSETS_PATH = "./assets/";
 const IMAGES_PATH = ASSETS_PATH + "images/";
 const JSONS_PATH  = ASSETS_PATH + "json/";
 const AUDIO_PATH  = ASSETS_PATH + "audio/";
@@ -15,15 +15,10 @@ const AUDIO_PATH  = ASSETS_PATH + "audio/";
 
 export default {
 
-	DEBUG: true,
+	DEBUG: false,
 
 	Player: {
 		Money: 5000
-	},
-
-	Dimensions: {
-		HEIGHT: 600,
-		WIDTH: 800
 	},
 
 	Scenes: {

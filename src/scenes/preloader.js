@@ -3,12 +3,14 @@ import BaseScene from "./base";
 import ProgressBar from "../utils/progress";
 import Tween from "../animation/tween";
 
-import { DPR } from "../utils/dpr";
+import {
+    DPR
+} from "../utils/dpr";
 
 
 const sounds = ['button-click', 'music', 'ambience'];
-const images = ['table', 'blackjack', 'red carpet'];
-const atlas  = ['chips', 'cards', 'buttons'];
+const images = ['table', 'blackjack', 'red carpet', 'landscape'];
+const atlas = ['chips', 'cards', 'buttons'];
 
 
 /**
@@ -19,7 +21,7 @@ const atlas  = ['chips', 'cards', 'buttons'];
  * @extends {BaseScene}
  */
 export default class Preloader extends BaseScene {
-    
+
     /**
      *Creates an instance of Preloader.
      * @memberof Preloader
@@ -36,11 +38,11 @@ export default class Preloader extends BaseScene {
      * @memberof Preloader
      */
     multiSoundPreload(sound, count) {
-        for(var i = 1; i <= count; i++) {
+        for (var i = 1; i <= count; i++) {
             let fileName = sound + i;
             let path = CONSTANTS.Paths.AUDIO + fileName + ".mp3";
 
-            this.load.audio(fileName, path);            
+            this.load.audio(fileName, path);
         }
     }
 
@@ -50,7 +52,7 @@ export default class Preloader extends BaseScene {
      * @memberof Preloader
      */
     preload() {
-        
+
         this.grid = this.makeGrid(15, 15);
         this.progressBar = new ProgressBar(this);
         this.loadingImage = this.add.image(0, 0, "boot").setScale(0.5);
@@ -68,18 +70,18 @@ export default class Preloader extends BaseScene {
      * @memberof Preloader
      */
     preloadImages() {
-        
+
         atlas.forEach(ats => {
             let imagePath = CONSTANTS.Paths.IMAGES + ats + '@' + DPR + 'x.png';
-            let jsonPath  = CONSTANTS.Paths.JSONS  + ats + '@' + DPR + 'x.json';
+            let jsonPath = CONSTANTS.Paths.JSONS + ats + '@' + DPR + 'x.json';
 
             this.load.atlas(ats, imagePath, jsonPath);
         });
-        
-        images.forEach( image => {
+
+        images.forEach(image => {
             let path = CONSTANTS.Paths.IMAGES + image + '@' + DPR + 'x.png';
             this.load.image(image, path);
-        })
+        });
 
     }
 
@@ -90,7 +92,7 @@ export default class Preloader extends BaseScene {
      */
     preloadSounds() {
 
-        sounds.forEach( sound => {
+        sounds.forEach(sound => {
             let path = CONSTANTS.Paths.AUDIO + sound + ".mp3";
 
             this.load.audio(sound, path);
@@ -108,11 +110,11 @@ export default class Preloader extends BaseScene {
      */
     displayProgress() {
 
-        this.load.on('progress', function(value) {
+        this.load.on('progress', function (value) {
             this.progressBar.update(value);
         }, this);
 
-        this.load.on('complete', function() {
+        this.load.on('complete', function () {
             this.progressBar.setText("Click to Start Game");
         }, this);
     }
@@ -123,15 +125,16 @@ export default class Preloader extends BaseScene {
      * @memberof Preloader
      */
     create() {
-        super.create( () => {
+
+        console.log(this.game.cache.audio)
+
+        super.create(() => {
             // Make the user interact with the browser to allow autoplay.
-            
-            if(CONSTANTS.DEBUG) {
+
+            if (CONSTANTS.DEBUG) {
                 this.transitionToMenuScene();
             } else {
-                this.input.on('pointerdown', function(){  
-                    this.transitionToMenuScene();
-                }, this);
+                this.input.on('pointerdown', () => this.transitionToMenuScene());
             }
 
         });
@@ -148,6 +151,6 @@ export default class Preloader extends BaseScene {
         this.getMusicInstance().play();
         this.getAmbienceInstance().play();
 
-        Tween.fade(this, this.loadingImage, () => this.scene.start(CONSTANTS.Scenes.Keys.Menu) );
+        Tween.fade(this, this.loadingImage, () => this.scene.start(CONSTANTS.Scenes.Keys.Menu));
     }
 }

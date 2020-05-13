@@ -7,13 +7,14 @@ import Text from "../text/text";
 
 
 export default class GameScene extends BaseScene {
+
     constructor() {
         super(CONSTANTS.Scenes.Keys.Game);
     }
 
     create() {
-        super.create( ()=> {
-            this.table = this.add.image(0, 0, 'table').setScale(1.2);
+        super.create(() => {
+            this.table = this.add.image(0, 0, 'table').setScale(1.65);
             this.player = new Player(CONSTANTS.Player.Money);
             this.dealer = new Dealer();
             this.balance = new Text(this, `$${this.player.money}`);

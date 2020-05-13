@@ -19,8 +19,9 @@ export default class BaseScene extends Phaser.Scene {
      * @memberof BaseScene
      */
     static music = null;
+
     /**
-     *
+     * The instance for the game's ambience sound.
      *
      * @static
      * @memberof BaseScene
@@ -43,8 +44,12 @@ export default class BaseScene extends Phaser.Scene {
      * @memberof BaseScene
      */
     getMusicInstance() {
-        if(BaseScene.music == null)
-            BaseScene.music = this.sound.add('music', {mute: CONSTANTS.DEBUG, loop: true, volume: 0.2});
+        if (BaseScene.music == null)
+            BaseScene.music = this.sound.add('music', {
+                mute: CONSTANTS.DEBUG,
+                loop: true,
+                volume: 0.2
+            });
         return BaseScene.music;
     }
 
@@ -55,8 +60,12 @@ export default class BaseScene extends Phaser.Scene {
      * @memberof BaseScene
      */
     getAmbienceInstance() {
-        if(BaseScene.ambience == null)
-            BaseScene.ambience = this.sound.add('ambience', {mute: true, loop: true, volume: 0.1});
+        if (BaseScene.ambience == null)
+            BaseScene.ambience = this.sound.add('ambience', {
+                mute: true,
+                loop: true,
+                volume: 0.1
+            });
         return BaseScene.ambience;
     }
 
@@ -100,7 +109,11 @@ export default class BaseScene extends Phaser.Scene {
      * @memberof BaseScene
      */
     makeGrid(rows, cols) {
-        return new Grid( {scene: this, cols: cols, rows: rows} );
+        return new Grid({
+            scene: this,
+            cols: cols,
+            rows: rows
+        });
     }
 
     /**
@@ -112,12 +125,33 @@ export default class BaseScene extends Phaser.Scene {
      * @memberof BaseScene
      */
     create(childCreate) {
-        this.grid = this.makeGrid(15, 15);
-        
-        if(childCreate) childCreate();
 
-        if(CONSTANTS.DEBUG) {
+        this.grid = this.makeGrid(15, 15);
+
+        if (childCreate) childCreate();
+
+        if (CONSTANTS.DEBUG) {
             this.grid.showNumbers();
-        } 
+        }
+
+        this.landscape = this.add.image(0, 0, 'landscape').setVisible(false);
+        this.grid.placeAtIndex(112, this.landscape);
+        this.checkOriention(this.scale.orientation);
+        this.scale.on('orientationchange', this.checkOriention, this);
+    }
+
+    /**
+     * Verifies the device's orientation. Blocks the viewport if the 
+     * device is in portrait mode.
+     *
+     * @param {*} orientation
+     * @memberof BaseScene
+     */
+    checkOriention(orientation) {
+        if (orientation === Phaser.Scale.PORTRAIT) {
+            this.landscape.setVisible(true);
+        } else if (orientation === Phaser.Scale.LANDSCAPE) {
+            this.landscape.setVisible(false);
+        }
     }
 }

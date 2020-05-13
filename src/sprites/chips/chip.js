@@ -4,8 +4,8 @@ import CONSTANTS from "../../constants";
 
 export default class Chip extends Phaser.GameObjects.Sprite {
 
-    static SCALE = 0.75;
-    static VALUES = [1  , 5  ,  10,  50, 100, 500, 1000, 2000];
+    static SCALE = 1;
+    static VALUES = [1, 5, 10, 50, 100, 500, 1000, 2000];
 
     constructor(scene, value) {
         super(scene, 0, 0);

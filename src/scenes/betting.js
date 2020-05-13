@@ -10,13 +10,13 @@ import Chips from "../groups/chips";
 
 export default class Betting extends BaseScene {
 
-    static chipIndices = [169, 171, 173, 175, 199, 201, 203 , 205 ];
+    static chipIndices = [169, 171, 173, 175, 199, 201, 203, 205];
 
     static getChipIndex(chip) {
         let index = Chip.VALUES.indexOf(chip.getValue());
         return Betting.chipIndices[index];
     }
-    
+
     constructor() {
         super(CONSTANTS.Scenes.Keys.Betting);
     }
@@ -26,12 +26,12 @@ export default class Betting extends BaseScene {
     }
 
     create() {
-        super.create( ()=> {
+        super.create(() => {
 
             this.placeBetText = new Text(this, "Place your bet!");
 
-            this.dealButton   = new Button(this, "Deal", () => this.transitionToDealScene());
-            this.dealButton.setAlpha(0).setScale(0.7);
+            this.dealButton = new Button(this, "Deal", () => this.transitionToDealScene());
+            this.dealButton.setAlpha(0).setScale(1);
 
             this.chips = new Chips(this);
             this.pot = new Pot(this);
@@ -49,10 +49,10 @@ export default class Betting extends BaseScene {
 
         let currentValue = 0;
 
-        for(const index of Object.values(Betting.chipIndices)) {
+        for (const index of Object.values(Betting.chipIndices)) {
             let value = Chip.VALUES[currentValue];
 
-            if(this.blackjack.player.money < value) 
+            if (this.blackjack.player.money < value)
                 break;
 
             this.createChip(index, value);
@@ -71,7 +71,7 @@ export default class Betting extends BaseScene {
 
             chip.disableInteractive();
 
-            if(this.pot.contains(chip))
+            if (this.pot.contains(chip))
                 this.removeTopChipFromPot();
             else
                 this.placeInPot(chip, index, value);
@@ -92,9 +92,9 @@ export default class Betting extends BaseScene {
         let index = Betting.getChipIndex(chip);
 
         Tween.toIndex(this, {
-            target: chip, 
-            index: index, 
-            duration: 250, 
+            target: chip,
+            index: index,
+            duration: 250,
             onComplete: () => chip.destroy()
         });
     }
@@ -105,7 +105,7 @@ export default class Betting extends BaseScene {
         this.chips.remove(chip);
 
         let position = this.pot.add(chip);
-        
+
         this.tweens.add({
             targets: chip,
             duration: 250,
@@ -115,7 +115,7 @@ export default class Betting extends BaseScene {
             onComplete: () => chip.setInteractive()
         });
 
-        if(!this.chips.exists(chip)) {
+        if (!this.chips.exists(chip)) {
             this.createChip(index, value);
         }
     }
@@ -125,18 +125,18 @@ export default class Betting extends BaseScene {
     }
 
     enableButtonsCheck() {
-        if(this.pot.amount > 0)
+        if (this.pot.amount > 0)
             this.dealButton.show(true);
         else
             this.dealButton.show(false);
     }
 
     updateChips() {
-        for(const chip of Object.values(this.chips.getChildren())) {
+        for (const chip of Object.values(this.chips.getChildren())) {
 
-            if(this.blackjack.player.money < chip.getValue()) 
+            if (this.blackjack.player.money < chip.getValue())
                 chip.setVisible(false);
-            else 
+            else
                 chip.setVisible(true);
         }
     }
@@ -171,7 +171,7 @@ export default class Betting extends BaseScene {
 
         this.pot.disableInteractive();
 
-        let potPosition  = this.grid.getIndexPos(118);
+        let potPosition = this.grid.getIndexPos(118);
         let textPosition = this.grid.getIndexPos(148);
 
         this.tweens.add({
@@ -182,7 +182,8 @@ export default class Betting extends BaseScene {
             onCompleteScope: this,
             onComplete: (tween, targets) => {
                 this.scene.launch(CONSTANTS.Scenes.Keys.Round, this.blackjack);
-            }});
+            }
+        });
 
         this.tweens.add({
             targets: this.pot.text,

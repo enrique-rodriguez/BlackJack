@@ -3,10 +3,10 @@ import FlipAnimation from "../../animation/flip";
 
 export default class Card extends Phaser.GameObjects.Sprite {
 
-    static SCALE = 0.75;
+    static SCALE = 1;
     static backTexture = 'back-black';
 
-    constructor(scene, model, flipped=true) {
+    constructor(scene, model, flipped = true) {
         super(scene);
         scene.add.existing(this);
         this.model = model;
@@ -15,7 +15,7 @@ export default class Card extends Phaser.GameObjects.Sprite {
         this.setScale(Card.SCALE);
         this.setFrame(model.toString());
 
-        if(flipped) this.changeTexture();
+        if (flipped) this.changeTexture();
 
         this.on('pointerup', this.flip, this);
 
@@ -31,12 +31,12 @@ export default class Card extends Phaser.GameObjects.Sprite {
         return this.scene.sound.add(sound);
     }
 
-    flip(animate=true) {
+    flip(animate = true) {
         this.getRandomFlipSound().play();
 
-        if(animate) {
+        if (animate) {
             this.flipAnimation.animate({
-                onComplete: ()=>{
+                onComplete: () => {
                     this.changeTexture();
                 }
             });
@@ -64,12 +64,12 @@ export default class Card extends Phaser.GameObjects.Sprite {
     changeTexture() {
         let texture;
 
-        if(this.frame.name == Card.backTexture) 
+        if (this.frame.name == Card.backTexture)
             texture = this.model.toString();
         else
             texture = Card.backTexture;
 
         this.setFrame(texture);
     }
-    
+
 }

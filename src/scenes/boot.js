@@ -2,7 +2,9 @@ import 'phaser';
 
 import CONSTANTS from "../constants";
 import BaseScene from "./base";
-import { DPR } from "../utils/dpr";
+import {
+    DPR
+} from "../utils/dpr";
 
 /**
  * First scene that is runned. Only used for preloading basic assets.
@@ -36,7 +38,7 @@ export default class Boot extends BaseScene {
      * @memberof Boot
      */
     create() {
-        super.create(()=>{
+        super.create(() => {
             this.scene.start(CONSTANTS.Scenes.Keys.Preloader);
         });
     }

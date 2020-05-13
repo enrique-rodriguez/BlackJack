@@ -4,6 +4,7 @@ import Button from "../sprites/buttons/button";
 import Card from "../sprites/cards/card";
 import CardModel from "../game/card";
 import Tween from "../animation/tween";
+import PlayingCardFrameGenerator from "../utils/frame_generator";
 import "phaser";
 
 
@@ -15,13 +16,14 @@ import "phaser";
  * @extends {BaseScene}
  */
 export default class Menu extends BaseScene {
-    
+
     /**
      *Creates an instance of Menu.
      * @memberof Menu
      */
     constructor() {
         super(CONSTANTS.Scenes.Keys.Menu);
+        this.frameGenerator = new PlayingCardFrameGenerator(this);
     }
 
     /**
@@ -39,10 +41,12 @@ export default class Menu extends BaseScene {
      * @memberof Menu
      */
     create() {
-        super.create( () => {
+        super.create(() => {
             this.createComponents();
             this.placeComponents();
-            this.animateToScene();
+            this.createAnimations();
+
+            this.menuCard.play('switch');
         });
     }
 
@@ -55,10 +59,10 @@ export default class Menu extends BaseScene {
     createComponents() {
         this.carpet = this.add.image(0, 0, 'red carpet');
         this.banner = this.add.image(0, 0, 'blackjack');
-        this.menuCard = new Card(this, new CardModel('spade', 'A'), false).setInteractive();
+        this.menuCard = new Card(this, new CardModel('spade', '1'), false);
 
         this.playButton = new Button(this, "Play", () => this.playGame(), true);
-        this.maximizeButton = new Button(this, "Maximize", () => this.scale.toggleFullscreen());            
+        this.maximizeButton = new Button(this, "Maximize", () => this.scale.toggleFullscreen());
         this.musicButton = new Button(this, this.getMusicButtonTexture(), () => this.toggleMusic(), false);
     }
 
@@ -69,10 +73,10 @@ export default class Menu extends BaseScene {
      */
     placeComponents() {
         this.grid.placeAtIndex(112, this.carpet);
-        this.grid.placeAtIndex(37 , this.banner);
+        this.grid.placeAtIndex(37, this.banner);
         this.grid.placeAtIndex(195, this.playButton);
         this.grid.placeAtIndex(209, this.musicButton);
-        this.grid.placeAtIndex(14 , this.maximizeButton);
+        this.grid.placeAtIndex(14, this.maximizeButton);
     }
 
     /**
@@ -82,9 +86,10 @@ export default class Menu extends BaseScene {
      */
     playGame() {
         this.interactiveButtons(false);
+        this.menuCard.anims.stop();
         this.menuCard.flip();
         this.cardRotationSpeed = 10;
-        setTimeout( () => this.animateToGameScene(), 200);
+        setTimeout(() => this.animateToGameScene(), 300);
     }
 
     /**
@@ -129,11 +134,35 @@ export default class Menu extends BaseScene {
      *
      * @memberof Menu
      */
-    animateToScene() {
-        Tween.toIndex(this, {target: this.menuCard, index: 127, duration: 1000});
-        Tween.toIndex(this, {target: this.playButton, index: 202, duration: 1000});
-        Tween.toIndex(this, {target: this.musicButton, index: 204, duration: 1000});
-        Tween.toIndex(this, {target: this.maximizeButton, index: 209, duration: 1000});
+    createAnimations() {
+
+        Tween.toIndex(this, {
+            target: this.menuCard,
+            index: 127,
+            duration: 1000
+        });
+        Tween.toIndex(this, {
+            target: this.playButton,
+            index: 202,
+            duration: 1000
+        });
+        Tween.toIndex(this, {
+            target: this.musicButton,
+            index: 204,
+            duration: 1000
+        });
+        Tween.toIndex(this, {
+            target: this.maximizeButton,
+            index: 209,
+            duration: 1000
+        });
+
+        this.anims.create({
+            key: 'switch',
+            frames: this.frameGenerator.generate(),
+            repeat: -1,
+            frameRate: 1
+        });
     }
 
     /**
