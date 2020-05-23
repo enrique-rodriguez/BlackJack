@@ -10,6 +10,8 @@ export default class Button extends Phaser.GameObjects.Sprite {
     constructor(scene, frame, callback, once = false) {
         super(scene);
 
+        this.clickSound = this.scene.sound.add('button-click');
+
         scene.add.existing(this);
         this.setScale(1);
         this.setTexture("buttons");
@@ -26,16 +28,11 @@ export default class Button extends Phaser.GameObjects.Sprite {
 
     }
 
-    show(visible) {
+    setClickSound(sound) {
+        this.clickSound.destroy();
+        this.clickSound = this.scene.sound.add(sound);
 
-        if (visible) {
-            this.setVisible(true);
-            Tween.fadeInOrOut("in", this.scene, this);
-        } else {
-            Tween.fadeInOrOut("out", this.scene, this, () => {
-                this.setVisible(false);
-            });
-        }
+        return this;
     }
 
     performAction(callback) {
@@ -45,8 +42,7 @@ export default class Button extends Phaser.GameObjects.Sprite {
     }
 
     playPressSound() {
-        let clickSound = this.scene.sound.add('button-click');
-        clickSound.play();
+        this.clickSound.play();
     }
 
 }

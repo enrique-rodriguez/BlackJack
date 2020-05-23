@@ -16,8 +16,17 @@ export default class Pot extends Phaser.GameObjects.Group {
         this.position = scene.grid.getIndexPos(Pot.index);
     }
 
+    reset() {
+        this.amount = 0;
+
+        this.chips.forEach(c => {
+            super.remove(c);
+            c.destroy();
+        });
+    }
+
     disableInteractive() {
-        for(const chip of Object.values(this.getChildren())) {
+        for (const chip of Object.values(this.getChildren())) {
             chip.disableInteractive();
         }
     }
@@ -36,7 +45,7 @@ export default class Pot extends Phaser.GameObjects.Group {
     update(amount) {
         this.amount = amount;
 
-        if(this.amount <= 0) {
+        if (this.amount <= 0) {
             this.amount = 0;
             this.text.setVisible(false);
         } else {
@@ -45,16 +54,14 @@ export default class Pot extends Phaser.GameObjects.Group {
         this.text.setText(`$${this.amount}`);
     }
 
-    remove() {
-        
+    removeFromTop() {
+
         let chip = this.chips.pop();
         let newAmount = this.amount - chip.getValue();
 
         this.update(newAmount);
 
         this.position.y += 2;
-
-        super.remove(chip);
 
         return chip;
     }

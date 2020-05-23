@@ -1,7 +1,9 @@
 import 'phaser';
 
 import CONSTANTS from "./constants";
-import { DPR } from "./utils/dpr";
+import {
+    DPR
+} from "./utils/dpr";
 
 const width = 1200;
 const height = 800;
@@ -10,7 +12,7 @@ const height = 800;
 export default {
     type: Phaser.AUTO,
 
-    parent: "blackjack", 
+    parent: "blackjack",
 
     scale: {
         mode: Phaser.Scale.FIT,
@@ -25,8 +27,8 @@ export default {
     pixelArt: false,
 
     scene: CONSTANTS.Scenes.Classes,
-    
+
     audio: {
-        disableWebAudio: false
+        disableWebAudio: true
     },
 }

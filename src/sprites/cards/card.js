@@ -6,7 +6,7 @@ export default class Card extends Phaser.GameObjects.Sprite {
     static SCALE = 1;
     static backTexture = 'back-black';
 
-    constructor(scene, model, flipped = true) {
+    constructor(scene, model) {
         super(scene);
         scene.add.existing(this);
         this.model = model;
@@ -15,7 +15,7 @@ export default class Card extends Phaser.GameObjects.Sprite {
         this.setScale(Card.SCALE);
         this.setFrame(model.toString());
 
-        if (flipped) this.changeTexture();
+        if (!model.visible) this.changeTexture();
 
         this.on('pointerup', this.flip, this);
 
@@ -43,21 +43,8 @@ export default class Card extends Phaser.GameObjects.Sprite {
         }
     }
 
-    placeAt(index) {
-        let position = this.scene.grid.getIndexPos(index);
-
-        this.scene.tweens.add({
-            duration: 500,
-            targets: this,
-            x: position.x,
-            y: position.y,
-            ease: "Linear",
-            onCompleteScope: this,
-            onComplete: () => {
-                this.getRandomDealSound().play();
-                this.flip();
-            },
-        })
+    place() {
+        this.getRandomDealSound().play();
     }
 
 

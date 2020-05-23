@@ -1,6 +1,6 @@
 import "phaser";
 import shuffle from "./shuffle";
-
+import CardModel from "../game/card";
 /**
  * Generates the frame names for the playing cards.
  *
@@ -28,33 +28,14 @@ export default class PlayingCardFrameGenerator {
 
         let frames = [];
 
-        this.scene.anims.generateFrameNames('cards', {
-            prefix: 'spade',
-            start: 1,
-            end: 13,
-            outputArray: frames
-        });
-
-        this.scene.anims.generateFrameNames('cards', {
-            prefix: 'heart',
-            start: 1,
-            end: 13,
-            outputArray: frames
-        });
-
-        this.scene.anims.generateFrameNames('cards', {
-            prefix: 'diamond',
-            start: 1,
-            end: 13,
-            outputArray: frames
-        });
-
-        this.scene.anims.generateFrameNames('cards', {
-            prefix: 'club',
-            start: 1,
-            end: 13,
-            outputArray: frames
-        });
+        CardModel.SUITS.forEach(suit => {
+            this.scene.anims.generateFrameNames('cards', {
+                prefix: suit,
+                start: 1,
+                end: 13,
+                outputArray: frames
+            });
+        })
 
         shuffle(frames);
 

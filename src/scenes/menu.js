@@ -32,7 +32,7 @@ export default class Menu extends BaseScene {
      * @memberof Menu
      */
     init() {
-        this.cardRotationSpeed = 1;
+        this.setMenuCardRotationSpeed(1);
     }
 
     /**
@@ -45,14 +45,12 @@ export default class Menu extends BaseScene {
             this.createComponents();
             this.placeComponents();
             this.createAnimations();
-
             this.menuCard.play('switch');
         });
     }
 
     /**
-     * Creates the components for the scene, like buttons, 
-     * images and sprites.
+     * Creates the components for the scene, like buttons and images.
      *
      * @memberof Menu
      */
@@ -85,11 +83,21 @@ export default class Menu extends BaseScene {
      * @memberof Menu
      */
     playGame() {
-        this.interactiveButtons(false);
+        this.enableButtons(false);
         this.menuCard.anims.stop();
         this.menuCard.flip();
-        this.cardRotationSpeed = 10;
+        this.setMenuCardRotationSpeed(10);
         setTimeout(() => this.animateToGameScene(), 300);
+    }
+
+    /**
+     * Changes the rotation speed for the menu playing card.
+     *
+     * @param {*} speed
+     * @memberof Menu
+     */
+    setMenuCardRotationSpeed(speed) {
+        this.cardRotationSpeed = speed;
     }
 
     /**
@@ -98,7 +106,7 @@ export default class Menu extends BaseScene {
      * @param {boolean} option
      * @memberof Menu
      */
-    interactiveButtons(option) {
+    enableButtons(option) {
         this.playButton.setInteractive(option);
         this.musicButton.setInteractive(option);
         this.maximizeButton.setInteractive(option);
@@ -126,7 +134,7 @@ export default class Menu extends BaseScene {
      */
     toggleMusic() {
         super.toggleMusic();
-        this.musicButton.setFrame(this.getMuiscButtonTexture());
+        this.musicButton.setFrame(this.getMusicButtonTexture());
     }
 
     /**
@@ -161,7 +169,7 @@ export default class Menu extends BaseScene {
             key: 'switch',
             frames: this.frameGenerator.generate(),
             repeat: -1,
-            frameRate: 1
+            frameRate: 0.5
         });
     }
 

@@ -7,7 +7,7 @@ import {
 } from "../utils/dpr";
 
 /**
- * First scene that is runned. Only used for preloading basic assets.
+ * First scene that is started. Only used for preloading basic assets.
  *
  * @export
  * @class Boot

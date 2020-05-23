@@ -48,7 +48,7 @@ export default class BaseScene extends Phaser.Scene {
             BaseScene.music = this.sound.add('music', {
                 mute: CONSTANTS.DEBUG,
                 loop: true,
-                volume: 0.2
+                volume: 0.1
             });
         return BaseScene.music;
     }

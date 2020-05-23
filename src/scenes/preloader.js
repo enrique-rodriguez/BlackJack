@@ -7,8 +7,13 @@ import {
     DPR
 } from "../utils/dpr";
 
+// Assets to be loaded
 
-const sounds = ['button-click', 'music', 'ambience'];
+const sounds = [
+    'button-click', 'music', 'ambience', 'hit_click', 'shuffling',
+    'stand_click', 'deal_click', 'win', 'lose', 'blackjack'
+];
+
 const images = ['table', 'blackjack', 'red carpet', 'landscape'];
 const atlas = ['chips', 'cards', 'buttons'];
 
@@ -52,7 +57,6 @@ export default class Preloader extends BaseScene {
      * @memberof Preloader
      */
     preload() {
-
         this.grid = this.makeGrid(15, 15);
         this.progressBar = new ProgressBar(this);
         this.loadingImage = this.add.image(0, 0, "boot").setScale(0.5);
@@ -70,11 +74,9 @@ export default class Preloader extends BaseScene {
      * @memberof Preloader
      */
     preloadImages() {
-
         atlas.forEach(ats => {
             let imagePath = CONSTANTS.Paths.IMAGES + ats + '@' + DPR + 'x.png';
             let jsonPath = CONSTANTS.Paths.JSONS + ats + '@' + DPR + 'x.json';
-
             this.load.atlas(ats, imagePath, jsonPath);
         });
 
@@ -91,10 +93,8 @@ export default class Preloader extends BaseScene {
      * @memberof Preloader
      */
     preloadSounds() {
-
         sounds.forEach(sound => {
             let path = CONSTANTS.Paths.AUDIO + sound + ".mp3";
-
             this.load.audio(sound, path);
         })
 
@@ -109,7 +109,6 @@ export default class Preloader extends BaseScene {
      * @memberof Preloader
      */
     displayProgress() {
-
         this.load.on('progress', function (value) {
             this.progressBar.update(value);
         }, this);
@@ -125,14 +124,11 @@ export default class Preloader extends BaseScene {
      * @memberof Preloader
      */
     create() {
-
-        console.log(this.game.cache.audio)
-
         super.create(() => {
             // Make the user interact with the browser to allow autoplay.
 
             if (CONSTANTS.DEBUG) {
-                this.transitionToMenuScene();
+                this.scene.start('Game');
             } else {
                 this.input.on('pointerdown', () => this.transitionToMenuScene());
             }
