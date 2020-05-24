@@ -10,7 +10,7 @@ const Win = {
 }
 
 /**
- *
+ * The scene responsible for the game logic.
  *
  * @export
  * @class PlayerPlayScene
@@ -19,7 +19,7 @@ const Win = {
 export default class PlayerPlayScene extends BaseScene {
 
     /**
-     *Creates an instance of PlayerPlayScene.
+     * Creates an instance of PlayerPlayScene.
      * @memberof PlayerPlayScene
      */
     constructor() {
@@ -27,7 +27,7 @@ export default class PlayerPlayScene extends BaseScene {
     }
 
     /**
-     *
+     * Initializes scene data.
      *
      * @param {*} data
      * @memberof PlayerPlayScene
@@ -37,7 +37,7 @@ export default class PlayerPlayScene extends BaseScene {
     }
 
     /**
-     *
+     * Creates the scene components.
      *
      * @memberof PlayerPlayScene
      */
@@ -50,7 +50,7 @@ export default class PlayerPlayScene extends BaseScene {
     }
 
     /**
-     *
+     * Creates the sounds used for this scene.
      *
      * @memberof PlayerPlayScene
      */
@@ -69,7 +69,7 @@ export default class PlayerPlayScene extends BaseScene {
     }
 
     /**
-     *
+     * Creates the texts and buttons for this scene.
      *
      * @memberof PlayerPlayScene
      */
@@ -89,6 +89,11 @@ export default class PlayerPlayScene extends BaseScene {
             .setClickSound('stand_click');
     }
 
+    /**
+     * Places the components created in their respective grid indices.
+     *
+     * @memberof PlayerPlayScene
+     */
     placeUiComponents() {
         this.grid.placeAtIndex(107, this.hitButton);
         this.grid.placeAtIndex(152, this.standButton);
@@ -96,7 +101,7 @@ export default class PlayerPlayScene extends BaseScene {
     }
 
     /**
-     *
+     * Sets the button visibility by the given value.
      *
      * @param {*} visibility
      * @memberof PlayerPlayScene
@@ -107,7 +112,7 @@ export default class PlayerPlayScene extends BaseScene {
     }
 
     /**
-     *
+     * Entry point for playing the game.
      *
      * @memberof PlayerPlayScene
      */
@@ -117,7 +122,7 @@ export default class PlayerPlayScene extends BaseScene {
     }
 
     /**
-     *
+     * Handles what happens the the player has a blackjack.
      *
      * @memberof PlayerPlayScene
      */
@@ -128,7 +133,7 @@ export default class PlayerPlayScene extends BaseScene {
     }
 
     /**
-     *
+     * Animates the BLACKJACK! text when the player gets a blackjack.
      *
      * @memberof PlayerPlayScene
      */
@@ -146,7 +151,7 @@ export default class PlayerPlayScene extends BaseScene {
     }
 
     /**
-     *
+     * Fades out the blackjack text.
      *
      * @memberof PlayerPlayScene
      */
@@ -159,7 +164,7 @@ export default class PlayerPlayScene extends BaseScene {
     }
 
     /**
-     *
+     * Callback that executes when the player is finished hitting.
      *
      * @memberof PlayerPlayScene
      */
@@ -171,7 +176,7 @@ export default class PlayerPlayScene extends BaseScene {
     }
 
     /**
-     *
+     * The dealer's play logic.
      *
      * @memberof PlayerPlayScene
      */
@@ -197,7 +202,7 @@ export default class PlayerPlayScene extends BaseScene {
     }
 
     /**
-     *
+     * What happens when there is a tie.
      *
      * @memberof PlayerPlayScene
      */
@@ -208,7 +213,7 @@ export default class PlayerPlayScene extends BaseScene {
     }
 
     /**
-     *
+     * Rewards the player and stars a new round.
      *
      * @param {*} multiplier
      * @memberof PlayerPlayScene
@@ -221,7 +226,7 @@ export default class PlayerPlayScene extends BaseScene {
     }
 
     /**
-     *
+     * The player loses the amount bet and starts a new round.
      *
      * @memberof PlayerPlayScene
      */
@@ -233,7 +238,7 @@ export default class PlayerPlayScene extends BaseScene {
     }
 
     /**
-     *
+     * Rewards the player by the given multiplier.
      *
      * @param {*} multiplier
      * @memberof PlayerPlayScene
@@ -244,7 +249,7 @@ export default class PlayerPlayScene extends BaseScene {
     }
 
     /**
-     *
+     * Start a new round and moves the pot to the given index.
      *
      * @param {*} index
      * @memberof PlayerPlayScene
@@ -255,7 +260,7 @@ export default class PlayerPlayScene extends BaseScene {
     }
 
     /**
-     *
+     * Callback executed when the player presses the hit button.
      *
      * @memberof PlayerPlayScene
      */
@@ -269,7 +274,7 @@ export default class PlayerPlayScene extends BaseScene {
     }
 
     /**
-     *
+     * Executed after a card is dealt when hitting.
      *
      * @param {*} dealScene
      * @memberof PlayerPlayScene
@@ -289,7 +294,7 @@ export default class PlayerPlayScene extends BaseScene {
     }
 
     /**
-     *
+     * Fades the hit and stand button.
      *
      * @memberof PlayerPlayScene
      */

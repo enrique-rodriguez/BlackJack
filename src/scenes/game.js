@@ -24,15 +24,6 @@ export default class GameScene extends BaseScene {
     }
 
     /**
-     * Initialization of non scene dependant variables.
-     *
-     * @memberof GameScene
-     */
-    init() {
-
-    }
-
-    /**
      * Creates all of the elements fort this scene.
      *
      * @memberof GameScene

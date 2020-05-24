@@ -3,7 +3,6 @@ import Preloader from "./scenes/preloader";
 import Menu from "./scenes/menu";
 import Game from "./scenes/game";
 import Betting from "./scenes/betting";
-import StartRound from "./scenes/round";
 import DealScene from "./scenes/deal";
 import PlayerPlayScene from "./scenes/player_play";
 
@@ -15,7 +14,7 @@ const AUDIO_PATH = ASSETS_PATH + "audio/";
 
 export default {
 
-	DEBUG: false,
+	DEBUG: true,
 
 	Player: {
 		Money: 5000
@@ -30,7 +29,6 @@ export default {
 			Betting: "Betting",
 			Deal: "Deal",
 			PlayerPlay: "PlayerPlay",
-			Round: "StartRound"
 		},
 		Classes: [
 			Boot,
@@ -40,7 +38,6 @@ export default {
 			Betting,
 			DealScene,
 			PlayerPlayScene,
-			StartRound
 		]
 	},
 

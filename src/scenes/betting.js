@@ -71,6 +71,7 @@ export default class Betting extends BaseScene {
 
             this.chips = new Chips(this);
             this.pot = new Pot(this);
+            this.potText = new Text(this, `$${this.pot.amount}`).setVisible(false);
 
             this.placeUIComponents();
 
@@ -87,7 +88,7 @@ export default class Betting extends BaseScene {
     placeUIComponents() {
         this.grid.placeAtIndex(124, this.dealButton);
         this.grid.placeAtIndex(67, this.placeBetText);
-        this.grid.placeAtIndex(129, this.pot.text);
+        this.grid.placeAtIndex(129, this.potText);
     }
 
     /**
@@ -158,6 +159,7 @@ export default class Betting extends BaseScene {
      */
     removeTopChipFromPot() {
         let chip = this.pot.removeFromTop();
+        this.updatePotText();
         let position = this.grid.getIndexPos(Betting.getChipIndex(chip));
 
         this.tweens.add({
@@ -206,7 +208,10 @@ export default class Betting extends BaseScene {
             ease: "Linear",
             x: position.x,
             y: position.y,
-            onComplete: (_, targets) => targets.forEach(c => c.setInteractive())
+            onComplete: (_, targets) => {
+                targets.forEach(c => c.setInteractive());
+                this.updatePotText();
+            }
         });
 
         if (!this.chips.exists(chip)) {
@@ -223,13 +228,26 @@ export default class Betting extends BaseScene {
         this.blackjack.balance.setText(`$${this.blackjack.player.money}`);
     }
 
+    /**
+     * Updates the text containing the pot amount using the model.
+     *
+     * @memberof Betting
+     */
+    updatePotText() {
+        this.potText.setText(`$${this.pot.amount}`);
+    }
 
-
+    /**
+     * Fades the deal button and pot text depending on the type.
+     *
+     * @param {"in"|"out"} type 
+     * @memberof Betting
+     */
     fadeDealButtonAndPotText(type) {
         this.tweens.add({
             onStart: type == "in" ?
                 (_, targets) => targets.forEach(t => t.setVisible(true)) : () => this.dealButton.disableInteractive(),
-            targets: [this.dealButton.setInteractive(), this.pot.text],
+            targets: [this.dealButton.setInteractive(), this.potText],
             alpha: type == "out" ? 0 : 1,
             duration: 500,
             onComplete: type == "out" ? (_, targets) => targets.forEach(t => t.setVisible(false)) : null,
@@ -237,7 +255,7 @@ export default class Betting extends BaseScene {
     }
 
     /**
-     *
+     * Updates the poker chips using the players balance.
      *
      * @memberof Betting
      */
@@ -295,20 +313,7 @@ export default class Betting extends BaseScene {
     }
 
     /**
-     *
-     *
-     * @memberof Betting
-     */
-    showPotTextAndDealButton() {
-        this.tweens.add({
-            targets: [this.dealButton, this.placeBetText],
-            alpha: 1,
-            duration: 500,
-        });
-    }
-
-    /**
-     *
+     * prepares the scene for betting.
      *
      * @memberof Betting
      */
@@ -318,7 +323,7 @@ export default class Betting extends BaseScene {
     }
 
     /**
-     *
+     * Fades in the 'Place your bet!' text
      *
      * @memberof Betting
      */
@@ -361,14 +366,14 @@ export default class Betting extends BaseScene {
      */
     startNewRoundAndMovePotTo(index) {
         let dealScene = this.scene.get(CONSTANTS.Scenes.Keys.Deal);
-
+        this.pot.resetAmount();
         this.movePot(index, () => dealScene.prepareForNewRound());
         this.movePotText(this.pot.index);
         this.fadeOutPotText();
     }
 
     /**
-     *
+     * Moves the pot text to the given index.
      *
      * @param {*} index
      * @memberof Betting
@@ -377,7 +382,7 @@ export default class Betting extends BaseScene {
         let textPosition = this.grid.getIndexPos(index);
 
         this.tweens.add({
-            targets: this.pot.text,
+            targets: this.potText,
             duration: 500,
             x: textPosition.x,
             y: textPosition.y
@@ -385,21 +390,22 @@ export default class Betting extends BaseScene {
     }
 
     /**
-     *
+     * Fades out the pot text.
      *
      * @memberof Betting
      */
     fadeOutPotText() {
         this.tweens.add({
-            targets: this.pot.text,
+            targets: this.potText,
             duration: 500,
             alpha: 0,
+            onStart: () => this.updatePotText(),
             onComplete: () => this.movePotText(129)
         });
     }
 
     /**
-     *
+     * Pays the player the pot amount by the multiplier.
      *
      * @param {*} multiplier
      * @memberof Betting

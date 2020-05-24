@@ -23,7 +23,7 @@ export default class DealScene extends BaseScene {
     }
 
     /**
-     *
+     * Initializatin data.
      *
      * @param {*} data
      * @memberof DealScene
@@ -33,7 +33,7 @@ export default class DealScene extends BaseScene {
     }
 
     /**
-     *
+     * creates a card object.
      *
      * @param {*} index
      * @param {boolean} [flipped=false]
@@ -55,6 +55,14 @@ export default class DealScene extends BaseScene {
     }
 
 
+    /**
+     * gets a card model using the dealers deck and returns it.
+     *
+     * @param {*} player
+     * @param {*} flipped
+     * @returns
+     * @memberof DealScene
+     */
     getCardModel(player, flipped) {
 
         try {
@@ -79,7 +87,7 @@ export default class DealScene extends BaseScene {
     }
 
     /**
-     *
+     * Create a tween for the given card.
      *
      * @param {*} card
      * @param {*} onComplete
@@ -102,7 +110,7 @@ export default class DealScene extends BaseScene {
     }
 
     /**
-     *
+     * Create components in the scene.
      *
      * @memberof DealScene
      */
@@ -116,7 +124,7 @@ export default class DealScene extends BaseScene {
     }
 
     /**
-     *
+     * Creates all of the text components.
      *
      * @memberof DealScene
      */
@@ -130,6 +138,11 @@ export default class DealScene extends BaseScene {
         this.grid.placeAtIndex(22, this.reshufflingText);
     }
 
+    /**
+     * Flips the dealer's down card and updates its score.
+     *
+     * @memberof DealScene
+     */
     flipDealersDownCard() {
         this.blackjack.dealer.flipDownCard();
         this.blackjack.dealer.setDirty(true);
@@ -138,6 +151,13 @@ export default class DealScene extends BaseScene {
         this.updateDealerScore();
     }
 
+    /**
+     * Fades's the reshuffling text.
+     *
+     * @param {*} type
+     * @param {*} onComplete
+     * @memberof DealScene
+     */
     fadeReshufflingText(type, onComplete) {
         this.tweens.add({
             targets: this.reshufflingText,
@@ -150,7 +170,7 @@ export default class DealScene extends BaseScene {
     }
 
     /**
-     *
+     * Creats the first 4 cards dealt at the beginning of the round.
      *
      * @memberof DealScene
      */
@@ -165,7 +185,7 @@ export default class DealScene extends BaseScene {
     }
 
     /**
-     *
+     * Starts the dealing of the cards.
      *
      * @memberof DealScene
      */
@@ -176,7 +196,7 @@ export default class DealScene extends BaseScene {
     }
 
     /**
-     *
+     * Animates the initial cards to the table.
      *
      * @memberof DealScene
      */
@@ -198,7 +218,7 @@ export default class DealScene extends BaseScene {
     }
 
     /**
-     *
+     * Sets the player and dealer's score text visibility.
      *
      * @param {*} visibility
      * @memberof DealScene
@@ -209,7 +229,7 @@ export default class DealScene extends BaseScene {
     }
 
     /**
-     *
+     * Prepares the scene for a new round.
      *
      * @param {*} onComplete
      * @memberof DealScene
@@ -276,7 +296,7 @@ export default class DealScene extends BaseScene {
     }
 
     /**
-     *
+     * Callback function for when the cards are finished being laid down.
      *
      * @memberof DealScene
      */
@@ -295,7 +315,7 @@ export default class DealScene extends BaseScene {
     }
 
     /**
-     *
+     * Updates the player's score text.
      *
      * @memberof DealScene
      */
@@ -304,7 +324,7 @@ export default class DealScene extends BaseScene {
     }
 
     /**
-     *
+     * Update's the dealer's score text.
      *
      * @memberof DealScene
      */
