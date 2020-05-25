@@ -21,11 +21,11 @@ After cloning the repo, run `npm install` from your project directory. Then, you
 
 ## Screenshot
 
-![Menu Scene](screenshots/Screenshot 1)
-![Betting Scene](screenshots/Screenshot 2)
-![Placing a Bet](screenshots/Screenshot 3)
-![Playing The Game](screenshots/Screenshot 4)
-![Showing Outcome](screenshots/Screenshot 5)
+![Menu Scene](screenshots/Screenshot 1.png)
+![Betting Scene](screenshots/Screenshot 2.png)
+![Placing a Bet](screenshots/Screenshot 3.png)
+![Playing The Game](screenshots/Screenshot 4.png)
+![Showing Outcome](screenshots/Screenshot 5.png)
 
 
 
