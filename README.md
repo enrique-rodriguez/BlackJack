@@ -18,3 +18,14 @@ that includes hot-reloading for development and production-ready builds.
 ## How to run the Game
 
 After cloning the repo, run `npm install` from your project directory. Then, you can start the game locally on a server by running `npm start`.
+
+## Screenshot
+
+![Menu Scene](screenshots/Screenshot 1)
+![Betting Scene](screenshots/Screenshot 2)
+![Placing a Bet](screenshots/Screenshot 3)
+![Playing The Game](screenshots/Screenshot 4)
+![Showing Outcome](screenshots/Screenshot 5)
+
+
+
