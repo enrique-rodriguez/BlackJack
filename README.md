@@ -3,6 +3,9 @@
 A Phaser 3 project with ES6 support via [Babel 7](https://babeljs.io/) and [Webpack 4](https://webpack.js.org/)
 that includes hot-reloading for development and production-ready builds.
 
+[Demo](https://ada.uprrp.edu/~enrique.rodriguez9/blackjack)
+
+
 ## Requirements
 
 [Node.js](https://nodejs.org) is required to install dependencies and run scripts via `npm`.
