@@ -11,7 +11,7 @@ import {
 
 const sounds = [
     'button-click', 'music', 'ambience', 'hit_click', 'shuffling',
-    'stand_click', 'deal_click', 'win', 'lose', 'blackjack'
+    'stand_click', 'deal_click', 'win', 'lose', 'blackjack', 'clear_cards'
 ];
 
 const images = ['table', 'blackjack', 'red carpet', 'landscape'];

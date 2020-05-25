@@ -14,7 +14,7 @@ const AUDIO_PATH = ASSETS_PATH + "audio/";
 
 export default {
 
-	DEBUG: true,
+	DEBUG: false,
 
 	Player: {
 		Money: 5000

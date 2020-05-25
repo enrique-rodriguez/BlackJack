@@ -116,6 +116,7 @@ export default class DealScene extends BaseScene {
      */
     create() {
         super.create(() => {
+            this.clearCardsSound = this.sound.add('clear_cards');
             this.reshuffleSound = this.sound.add('shuffling');
             this.cardsOnTable = this.add.group('cardsOnTable');
             this.createTextComponents();
@@ -250,6 +251,7 @@ export default class DealScene extends BaseScene {
                 cards.forEach(card => {
                     if (card.model.visible) card.flip();
                 });
+                this.clearCardsSound.play();
                 this.fadeScoreText("out");
                 this.blackjack.dealer.resetHand();
                 this.blackjack.player.resetHand();
