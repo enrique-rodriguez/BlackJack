@@ -202,7 +202,7 @@ export default class DealScene extends BaseScene {
      * @memberof DealScene
      */
     animateCardsToTable() {
-        this.tweens.timeline({
+        this.tweens.chain({
             tweens: [
                 this.createTween(this.playersFirstCard,
                     () => this.updatePlayerScore()),

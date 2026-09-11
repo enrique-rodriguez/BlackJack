@@ -9,16 +9,33 @@ export default class FlipAnimation extends Animation {
     }
 
     animate(config) {
-        this.scene.tweens.timeline({
+        this.scene.tweens.chain({
             targets: this.targets,
-            duration: 100,
-            ease: 'Power2',
             tweens: [
-                {scaleX: this.scale * 1.1, scaleY: this.scale * 1.1},
-                {scaleX: 0},
-                {onComplete: config.onComplete},
-                {scaleX: this.scale, scaleY: this.scale}
-            ],
-        }, this);
+                {
+                    scaleX: this.scale * 1.1,
+                    scaleY: this.scale * 1.1,
+                    duration: 100,
+                    ease: 'Power2'
+                },
+                {
+                    scaleX: 0,
+                    duration: 100,
+                    ease: 'Power2'
+                },
+                {
+                    scaleX: 0,
+                    duration: 100,
+                    ease: 'Power2',
+                    onComplete: config.onComplete
+                },
+                {
+                    scaleX: this.scale,
+                    scaleY: this.scale,
+                    duration: 100,
+                    ease: 'Power2'
+                }
+            ]
+        });
     }
 }
